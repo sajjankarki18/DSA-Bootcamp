@@ -1,0 +1,30 @@
+package searching;
+
+public class Leetcode_1351 {
+    public static void main(String[] args) {
+        int grid [][] =  {
+                {4,3,2,-1},
+                {3,2,1,-1},
+                {1,1,-1,-2},
+                {-1,-1,-2,-3}
+        };
+
+        System.out.println(countNegatives(grid));
+    }
+    public static int countNegatives(int[][] grid) {
+        if(grid.length == 0){
+            return -1;
+        }
+
+        int count = 0;
+
+        for(int i = 0;i<grid.length;i++){
+            for(int j = 0;j<grid.length;j++){
+                if(grid[i][j] < 0){
+                   count++;
+                }
+            }
+        }
+        return count;
+    }
+}
