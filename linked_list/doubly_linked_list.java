@@ -1,21 +1,24 @@
-package Linked_list;
+package linked_list;
 
 public class doubly_linked_list {
     public static void main(String[] args) {
         DLL list = new DLL();
-        list.insertFirst(56);
-        list.insertFirst(78);
-        list.insertLast(89);
+        list.insertFirst(45);
+        list.insertFirst(21);
+        list.insertFirst(67);
+
+        list.insertLast(100);
         list.insertLast(90);
 
-        list.insertAtSpecificIndex(100, 4);
-        list.removeAtSpecificIndex(1);
+        list.insertAtSpecificIndex(55, 4);
 
+        list.removeAtSpecificIndex(2);
         list.display();
     }
 }
 
 class DLL{
+
     Node head;
     Node tail;
     int size = 0;
@@ -32,10 +35,9 @@ class DLL{
             tail = node;
         }else {
             node.next = head;
-            head.prev = node;
+            node.prev = tail;
+            head = node;
         }
-
-        head = node;
         size++;
     }
 
@@ -46,10 +48,11 @@ class DLL{
             head = node;
             tail = node;
         }
+
         tail.next = node;
         node.prev = tail;
-
         tail = node;
+
         size++;
     }
 
@@ -66,7 +69,7 @@ class DLL{
             return;
         }
 
-        for(int i = 1;i<index;i++){
+        for(int i = 0;i<index - 1;i++){
             temp = temp.next;
         }
 
@@ -76,28 +79,26 @@ class DLL{
 
         size++;
     }
-
     public int removeFirst(){
         int value = head.value;
-
         head = head.next;
         head.prev = null;
 
         size--;
-        return value;
 
+        return value;
     }
 
     public int removeLast(){
         Node curr = head;
         Node prev = null;
 
-        if(curr.next == null){
+        while (curr.next == null){
             int value = head.value;
             head = null;
             tail = null;
-
             size--;
+
             return value;
         }
 
@@ -105,6 +106,7 @@ class DLL{
             prev = curr;
             curr = curr.next;
         }
+
         int value = curr.value;
         prev.next = null;
         tail = prev;
@@ -113,15 +115,37 @@ class DLL{
         return value;
     }
 
-    public void display(){
-        Node temp = head;
+    public int removeAtSpecificIndex_valid(int index){
+        Node curr = head;
+        Node prev = null;
 
-        while (temp != null){
-            System.out.print(temp.value + " <-> ");
-            temp = temp.next;
+        if(index == 0){
+            removeFirst();
         }
 
-        System.out.print("END");
+        if(index == size){
+            removeLast();
+        }
+
+        while (curr.next == null){
+            int value = head.value;
+            head = null;
+            tail = null;
+            size--;
+
+            return value;
+        }
+
+        for(int i = 0;i<index;i++){
+            prev = curr;
+            curr = curr.next;
+        }
+
+        int value = curr.value;
+        prev.next = curr.next;
+
+        size--;
+        return value;
     }
 
     public int removeAtSpecificIndex(int index){
@@ -136,24 +160,45 @@ class DLL{
             removeLast();
         }
 
+        while (curr.next == null){
+            int value = head.value;
+            head = null;
+            tail = null;
+            size--;
+
+            return value;
+        }
+
         for(int i = 0;i<index;i++){
             prev = curr;
             curr = curr.next;
         }
+
         int value = curr.value;
-        prev.next = curr.next;
+        curr.prev.next = curr.next;
+        curr.next.prev = curr.prev;
 
         size--;
         return value;
     }
 
+    public void display(){
+        Node temp = head;
+
+        while (temp != null){
+            System.out.print(temp.value + " <-> ");
+            temp = temp.next;
+        }
+
+        System.out.println("end of the list");
+    }
     private class Node{
         int value;
         Node next;
         Node prev;
 
         Node(int value){
-             this.value = value;
+            this.value = value;
         }
 
         Node(int value, Node next, Node prev){
@@ -161,6 +206,5 @@ class DLL{
             this.next = next;
             this.prev = prev;
         }
-
     }
 }

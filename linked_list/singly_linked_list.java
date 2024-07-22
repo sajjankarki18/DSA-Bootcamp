@@ -1,18 +1,18 @@
-package Linked_list;
+package linked_list;
 
 public class singly_linked_list {
     public static void main(String[] args) {
         SLL list = new SLL();
-        list.insertFirst(34);
-        list.insertFirst(20);
-        list.insertLast(45);
-        list.insertLast(56);
-        list.insertAtSpecificIndex(89, 2);
+        list.insertFirst(45);
+        list.insertFirst(67);
+        list.insertFirst(21);
 
-        list.removeFirst();
-        list.removeLast();
+        list.insertLast(100);
+        list.insertLast(89);
 
-        list.removeAtSpecificIndex(1);
+        list.insertAtSpecificIndex(55, 4);
+        list.removeAtSpecificIndex(3);
+        list.removeAtSpecificIndex(3);
 
         list.display();
     }
@@ -21,7 +21,6 @@ public class singly_linked_list {
 class SLL{
     Node head;
     Node tail;
-
     int size = 0;
 
     public SLL(){
@@ -42,15 +41,12 @@ class SLL{
 
     public void insertLast(int value){
         Node node = new Node(value);
-
-        if(tail == null){
-            insertFirst(value);
-            return;
-        }
-
         tail.next = node;
         tail = node;
 
+        if(head == null){
+            head = tail;
+        }
         size++;
     }
 
@@ -64,10 +60,9 @@ class SLL{
 
         if(index == size){
             insertLast(value);
-            return;
         }
 
-        for(int i = 1;i<index;i++){
+        for(int i = 0;i<index - 1;i++){
             temp = temp.next;
         }
 
@@ -86,16 +81,17 @@ class SLL{
     }
 
     public int removeLast(){
-        int value = tail.value;
         Node temp = head;
 
         for(int i = 0;i<size - 2;i++){
             temp = temp.next;
         }
+
+        int value = tail.value;
         temp.next = null;
         tail = temp;
-        size--;
 
+        size--;
         return value;
     }
 
@@ -113,7 +109,6 @@ class SLL{
         for(int i = 0;i<index - 1;i++){
             temp = temp.next;
         }
-
         int value = temp.next.value;
         temp.next = temp.next.next;
 
@@ -129,9 +124,8 @@ class SLL{
             temp = temp.next;
         }
 
-        System.out.print("END");
+        System.out.print("end of the list");
     }
-
     private class Node{
         int value;
         Node next;
